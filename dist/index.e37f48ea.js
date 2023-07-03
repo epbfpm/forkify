@@ -590,6 +590,7 @@ var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 // sei lá brother
 /* ============ selectors =========== */ const select = (selector)=>document.querySelector(selector);
+const recipeContainer = select(".recipe");
 const init = ()=>{
     (0, _searchViewJsDefault.default).addSearchHandler(controlSearch);
     (0, _recipeViewJsDefault.default).addLoadHandler(controlRecipes);
@@ -621,8 +622,7 @@ const init = ()=>{
     (0, _resultsViewJsDefault.default).renderNewPage(currentPage);
     (0, _resultsViewJsDefault.default).render(_modelJs.state.searchResults);
 };
-/* ================================== */ /*           DISPLAY RECIPE           */ /* ================================== */ const recipeContainer = select(".recipe");
-const controlRecipes = async function() {
+/* ================================== */ /*           DISPLAY RECIPE           */ /* ================================== */ const controlRecipes = async function() {
     try {
         window.scrollTo({
             top: 0,

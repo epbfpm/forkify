@@ -10,6 +10,7 @@ import paginationView from './views/paginationView.js';
 // sei lá brother
 /* ============ selectors =========== */
 const select = selector => document.querySelector(selector);
+const recipeContainer = select('.recipe');
 
 const init = () => {
   searchView.addSearchHandler(controlSearch);
@@ -37,6 +38,7 @@ const changeActiveTag = id => {
   activeTag && activeTag.classList.remove('preview__link--active');
   target?.classList.add('preview__link--active'); // add tag
 };
+
 /* ================================== */
 /*         SEARCH AND PREVIEw         */
 /* ================================== */
@@ -70,7 +72,6 @@ const controlPagination = function (currentPage) {
 /* ================================== */
 /*           DISPLAY RECIPE           */
 /* ================================== */
-const recipeContainer = select('.recipe');
 const controlRecipes = async function () {
   try {
     window.scrollTo({ top: 0, behavior: 'smooth' });
