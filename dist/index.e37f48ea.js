@@ -588,6 +588,7 @@ var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
+// sei lá brother
 /* ============ selectors =========== */ const select = (selector)=>document.querySelector(selector);
 const init = ()=>{
     (0, _searchViewJsDefault.default).addSearchHandler(controlSearch);
