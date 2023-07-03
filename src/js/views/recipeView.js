@@ -5,6 +5,19 @@ import View from './view.js';
 class RecipeView extends View {
   _parentEl = this.select('.recipe');
 
+  addServingsHandler(handler) {
+    this._parentEl.addEventListener('click', e => {
+      /* === is target the minus button === */
+      if (!e.target.closest('.btn--tiny')) return;
+      const modifyServings = e.target
+        .closest('.btn--tiny')
+        .classList.contains('btn--decrease-servings')
+        ? -1
+        : 1;
+      handler(modifyServings);
+    });
+  }
+
   _generateMarkup() {
     return `<div class='active-preview'>
       <figure class="recipe__fig">

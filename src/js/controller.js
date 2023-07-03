@@ -14,17 +14,9 @@ const recipeContainer = select('.recipe');
 
 const init = () => {
   searchView.addSearchHandler(controlSearch);
-
   recipeView.addLoadHandler(controlRecipes);
-
+  recipeView.addServingsHandler(controlServings);
   paginationView.addPaginationHandler(controlPagination);
-
-  /* ===== get bookmarks from file ==== */
-  // bookmarkRetrieval();
-
-  // controlSearch(); // ⚠️ ONLY TO MAKE PIZZAS APPEAR REMOVE
-
-  /* ======= pagination handler ======= */
 };
 
 /* ================================== */
@@ -48,8 +40,8 @@ const controlSearch = async function () {
 
     /* ======= fetch search results ====== */
     await model.loadSearch(searchView.getQuery());
-
     if (!searchView.getQuery()) return;
+
     /* ====== render search results ===== */
     paginationView.render(1, 100);
     resultsView.render(model.state.searchResults);
@@ -91,10 +83,6 @@ const controlRecipes = async function () {
 
     /* ========== render recipe ========= */
     recipeView.render(model.state.recipe);
-
-    /* ===== call related functions ===== */
-    // changeServings(recipe);
-    // bookmarkHandler(recipe);
   } catch (err) {
     // alert(err);
     console.log(err);
@@ -102,32 +90,10 @@ const controlRecipes = async function () {
 };
 
 /* ====== change serving sizes ====== */
-const changeServings = function (r) {
-  try {
-    recipeContainer.addEventListener('click', e => {
-      /* === is target the minus button === */
-      if (!e.target.closest('.btn--tiny')) return;
-      const lowerServingsBtn = e.target
-        .closest('.btn--tiny')
-        .classList.contains('btn--decrease-servings');
+const controlServings = function (modifyServings) {
+  model.updateServings(modifyServings);
 
-      /* ======= save previous value ====== */
-      let prevServings = r.servings;
-
-      /* ====== minimum serving is 1 ====== */
-      r.servings == 1 && lowerServingsBtn
-        ? r.servings
-        : (r.servings += lowerServingsBtn ? -1 : +1);
-
-      r.ingredients.forEach(i => {
-        i.quantity = i.quantity ? (i.quantity * r.servings) / prevServings : 0;
-      });
-
-      recipeView.render(r);
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  recipeView.render(model.state.recipe);
 };
 
 /* ================================== */
