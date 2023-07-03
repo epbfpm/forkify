@@ -56,3 +56,19 @@ export const constructRecipeObj = function (recipe) {
     ingredients: recipe.ingredients,
   };
 };
+
+export const updateServings = function (modifyServings) {
+  /* ======= save previous value ====== */
+  let prevServings = state.recipe.servings;
+
+  /* ====== minimum serving is 1 ====== */
+  state.recipe.servings == 1 && modifyServings === -1
+    ? state.recipe.servings
+    : (state.recipe.servings += modifyServings);
+
+  state.recipe.ingredients.forEach(i => {
+    i.quantity = i.quantity
+      ? (i.quantity * state.recipe.servings) / prevServings
+      : 0;
+  });
+};

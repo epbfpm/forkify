@@ -594,10 +594,9 @@ const recipeContainer = select(".recipe");
 const init = ()=>{
     (0, _searchViewJsDefault.default).addSearchHandler(controlSearch);
     (0, _recipeViewJsDefault.default).addLoadHandler(controlRecipes);
+    (0, _recipeViewJsDefault.default).addServingsHandler(controlServings);
     (0, _paginationViewJsDefault.default).addPaginationHandler(controlPagination);
-/* ===== get bookmarks from file ==== */ // bookmarkRetrieval();
-// controlSearch(); // ⚠️ ONLY TO MAKE PIZZAS APPEAR REMOVE
-/* ======= pagination handler ======= */ };
+};
 /* ================================== */ /*        INCIDENTAL FUNCTIONS        */ /* ================================== */ const changeActiveTag = (id)=>{
     /* ======== change active tag ======= */ const target = select(`[href="#${id}"]`); // find target
     const activeTag = select(".preview__link--active");
@@ -635,28 +634,14 @@ const init = ()=>{
         const { recipe  } = _modelJs.state;
         changeActiveTag(id);
         /* ========== render recipe ========= */ (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
-    /* ===== call related functions ===== */ // changeServings(recipe);
-    // bookmarkHandler(recipe);
     } catch (err) {
         // alert(err);
         console.log(err);
     }
 };
-/* ====== change serving sizes ====== */ const changeServings = function(r) {
-    try {
-        recipeContainer.addEventListener("click", (e)=>{
-            /* === is target the minus button === */ if (!e.target.closest(".btn--tiny")) return;
-            const lowerServingsBtn = e.target.closest(".btn--tiny").classList.contains("btn--decrease-servings");
-            /* ======= save previous value ====== */ let prevServings = r.servings;
-            /* ====== minimum serving is 1 ====== */ r.servings == 1 && lowerServingsBtn ? r.servings : r.servings += lowerServingsBtn ? -1 : 1;
-            r.ingredients.forEach((i)=>{
-                i.quantity = i.quantity ? i.quantity * r.servings / prevServings : 0;
-            });
-            (0, _recipeViewJsDefault.default).render(r);
-        });
-    } catch (err) {
-        console.log(err);
-    }
+/* ====== change serving sizes ====== */ const controlServings = function(modifyServings) {
+    _modelJs.updateServings(modifyServings);
+    (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
 };
 /* ================================== */ /*              BOOKMARKS             */ /* ================================== */ const bookmarksList = select(".bookmarks__list");
 let bookmarks = new Map();
@@ -2056,6 +2041,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearch", ()=>loadSearch);
 parcelHelpers.export(exports, "constructRecipeObj", ()=>constructRecipeObj);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _iconsSvg = require("url:../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 const state = {
@@ -2103,6 +2089,13 @@ const constructRecipeObj = function(recipe) {
         cookingTime: recipe.cooking_time,
         ingredients: recipe.ingredients
     };
+};
+const updateServings = function(modifyServings) {
+    /* ======= save previous value ====== */ let prevServings = state.recipe.servings;
+    /* ====== minimum serving is 1 ====== */ state.recipe.servings == 1 && modifyServings === -1 ? state.recipe.servings : state.recipe.servings += modifyServings;
+    state.recipe.ingredients.forEach((i)=>{
+        i.quantity = i.quantity ? i.quantity * state.recipe.servings / prevServings : 0;
+    });
 };
 
 },{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -2733,6 +2726,13 @@ var _viewJs = require("./view.js");
 var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 class RecipeView extends (0, _viewJsDefault.default) {
     _parentEl = this.select(".recipe");
+    addServingsHandler(handler) {
+        this._parentEl.addEventListener("click", (e)=>{
+            /* === is target the minus button === */ if (!e.target.closest(".btn--tiny")) return;
+            const modifyServings = e.target.closest(".btn--tiny").classList.contains("btn--decrease-servings") ? -1 : 1;
+            handler(modifyServings);
+        });
+    }
     _generateMarkup() {
         return `<div class='active-preview'>
       <figure class="recipe__fig">
