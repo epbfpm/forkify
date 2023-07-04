@@ -494,6 +494,7 @@ body {
   flex-direction: column;
   padding: 3rem 0;
   display: flex;
+  bottom: 0;
 }
 
 .results {
@@ -522,7 +523,7 @@ body {
 
 .copyright {
   color: #918581;
-  margin-top: 4rem;
+  margin-top: auto;
   padding: 0 3.5rem;
   font-size: 1.2rem;
 }
