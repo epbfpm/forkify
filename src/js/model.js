@@ -1,9 +1,10 @@
 import icons from 'url:../img/icons.svg';
+import recipeView from './views/recipeView';
 
 export const state = {
   recipe: {},
   searchResults: [],
-  bookmarks: {},
+  bookmarks: new Map(),
 };
 
 const throwError = function (res, data) {
@@ -71,4 +72,39 @@ export const updateServings = function (modifyServings) {
       ? (i.quantity * state.recipe.servings) / prevServings
       : 0;
   });
+};
+
+export const addBookmark = function () {
+  state.bookmarks.set(state.recipe.id, state.recipe);
+  setBookmarksInLS();
+};
+
+export const deleteBookmark = function () {
+  state.bookmarks.delete(state.recipe.id);
+  setBookmarksInLS();
+};
+
+const setBookmarksInLS = function () {
+  const bookmarksArray = Array.from(state.bookmarks.entries());
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarksArray));
+  console.log('LS', JSON.parse(localStorage.getItem('bookmarks')));
+};
+
+const clearBookmarks = function () {
+  localStorage.setItem('bookmarks', JSON.stringify([]));
+};
+
+// clearBookmarks();
+
+export const retrieveBookmarksFromLS = function () {
+  const localStorageBookmarks = new Map();
+  const getItems = localStorage.getItem('bookmarks');
+
+  if (getItems) {
+    const data = JSON.parse(getItems);
+    for (const [id, b] of data) {
+      localStorageBookmarks.set(id, b);
+    }
+    state.bookmarks = localStorageBookmarks;
+  }
 };

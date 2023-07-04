@@ -1,5 +1,6 @@
-import icons from 'url:../../img/icons.svg';
 import View from './view.js';
+import previewView from './previewView.js';
+import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
   _parentEl = this.select('.results');
@@ -18,7 +19,7 @@ class ResultsView extends View {
 
     const markup = this._data
       .map(recipe => {
-        return this._generateResultsMarkup(recipe);
+        return previewView.render(recipe);
       })
       .slice(this._start, this._end)
       .join('');
@@ -34,25 +35,6 @@ class ResultsView extends View {
           </div>
           <p>No recipes found for your query. Please try again!</p>
         </div>`;
-  }
-
-  _generateResultsMarkup(recipe) {
-    return `<li class="preview">
-            <a class="preview__link" href="#/${recipe.id}"  >
-              <figure class="preview__fig">
-                <img src="${recipe.image}" alt="Test" />
-              </figure>
-              <div class="preview__data">
-                <h4 class="preview__title">${recipe.title}</h4>
-                <p class="preview__publisher">${recipe.publisher}</p>
-                <div class="preview__user-generated">
-                  <svg>
-                    <use href="${icons}#icon-user"></use>
-                  </svg>
-                </div>
-              </div>
-            </a>
-          </li>`;
   }
 }
 

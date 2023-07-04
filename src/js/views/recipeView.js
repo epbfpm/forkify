@@ -7,6 +7,7 @@ class RecipeView extends View {
 
   addServingsHandler(handler) {
     this._parentEl.addEventListener('click', e => {
+      e.preventDefault();
       /* === is target the minus button === */
       if (!e.target.closest('.btn--tiny')) return;
       const modifyServings = e.target
@@ -15,6 +16,22 @@ class RecipeView extends View {
         ? -1
         : 1;
       handler(modifyServings);
+    });
+  }
+
+  renderIngredients(data) {
+    this._data = data;
+    /* ======= insert ingredients ======= */
+    this.select('.recipe__ingredient-list').innerHTML =
+      this._generateIngredientMarkup();
+    this.select('.recipe__info-data--people').innerHTML = this._data.servings;
+  }
+
+  addBookmarksHandler(handler) {
+    this._parentEl.addEventListener('click', e => {
+      const btn = e.target.closest('.btn--bookmark');
+      if (!btn) return;
+      handler();
     });
   }
 

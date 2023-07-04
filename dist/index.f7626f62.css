@@ -399,6 +399,7 @@ body {
 .preview__link:link, .preview__link:visited {
   border-right: 1px solid #fff;
   align-items: center;
+  width: 40rem;
   padding: 1.5rem 3.25rem;
   text-decoration: none;
   transition: all .3s;

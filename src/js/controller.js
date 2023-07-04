@@ -6,6 +6,7 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
 
 // sei lá brother
 /* ============ selectors =========== */
@@ -16,6 +17,7 @@ const init = () => {
   searchView.addSearchHandler(controlSearch);
   recipeView.addLoadHandler(controlRecipes);
   recipeView.addServingsHandler(controlServings);
+  recipeView.addBookmarksHandler(controlBookmarks);
   paginationView.addPaginationHandler(controlPagination);
 };
 
@@ -93,69 +95,23 @@ const controlRecipes = async function () {
 const controlServings = function (modifyServings) {
   model.updateServings(modifyServings);
 
-  recipeView.render(model.state.recipe);
+  recipeView.renderIngredients(model.state.recipe);
 };
 
 /* ================================== */
 /*              BOOKMARKS             */
 /* ================================== */
-const bookmarksList = select('.bookmarks__list');
-let bookmarks = new Map();
-const bookmarkRetrieval = function () {
-  const noBookmarks = `<div class="message">
-                    <div>
-                      <svg>
-                        <use href="${icons}#icon-smile"></use>
-                      </svg>
-                    </div>
-                    <p>
-                      No bookmarks yet. Find a nice recipe and bookmark it :)
-                    </p>
-                  </div>
-                  `;
+(function () {
+  model.retrieveBookmarksFromLS();
+  bookmarksView.render(model.state.bookmarks);
+})();
 
-  const lsb = new Map();
-  const x = localStorage.getItem('bookmarks');
+const controlBookmarks = function () {
+  model.state.bookmarks.has(model.state.recipe.id)
+    ? model.deleteBookmark()
+    : model.addBookmark();
 
-  if (x) {
-    const data = JSON.parse(x);
-    for (const [id, b] of data) {
-      lsb.set(id, b);
-    }
-    bookmarks = lsb;
-  }
-
-  if (bookmarks.size === 0) {
-    bookmarksList.innerHTML = noBookmarks;
-  } else {
-    bookmarksList.innerHTML = [...bookmarks.values()]
-      .map(b => previewHTML(b))
-      .join('');
-  }
-};
-
-const bookmarkHandler = function (recipe) {
-  recipeContainer.addEventListener('click', e => {
-    e.preventDefault();
-    if (!e.target.closest('button')?.classList.contains('btn--bookmark'))
-      return;
-
-    bookmarks.has(recipe.id)
-      ? bookmarks.delete(recipe.id)
-      : bookmarks.set(recipe.id, recipe);
-
-    /* === Update localStorage === */
-    const bookmarksArray = Array.from(bookmarks.entries());
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarksArray));
-
-    /* === add/remove no-bookmarks msg == */
-    bookmarkRetrieval();
-
-    /* == bookmarksList event listener == */
-    bookmarksList.addEventListener('click', () => {
-      recipeView.render(recipe);
-    });
-  });
+  bookmarksView.render(model.state.bookmarks);
 };
 
 init();
