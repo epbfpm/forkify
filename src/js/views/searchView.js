@@ -8,7 +8,6 @@ class SearchView extends View {
 
   getQuery() {
     this._query = this._searchField.value;
-    // return 'pizza'; // ⚠️ ONLY TO MAKE PIZZAS APPEAR REMOVE
     return this._query;
   }
 

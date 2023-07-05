@@ -3,7 +3,7 @@ import View from './view.js';
 
 class PaginationView extends View {
   _parentEl = this.select('.pagination');
-  currentPage = 1;
+  currentPage = 0;
 
   addPaginationHandler(handler) {
     this._parentEl.addEventListener('click', e => {
@@ -30,7 +30,7 @@ class PaginationView extends View {
     <span>Page ${this._data - 1}</span>
   </button>
   <button class="btn--inline pagination__btn--next ${
-    this._data * 10 >= (this.args || 100) ? 'hidden' : ''
+    this._data * 10 >= this.args ? 'hidden' : ''
   }">
     <span>Page ${this._data + 1}</span>
     <svg class="search__icon">

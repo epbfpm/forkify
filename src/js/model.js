@@ -1,5 +1,5 @@
-import icons from 'url:../img/icons.svg';
-import recipeView from './views/recipeView';
+import { API_URL } from './config.js';
+import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -7,40 +7,31 @@ export const state = {
   bookmarks: new Map(),
 };
 
-const throwError = function (res, data) {
-  if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-};
-
 export const loadRecipe = async function (id) {
   try {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await res.json();
-
-    throwError(res, data);
+    const data = await getJSON(`${API_URL}${id}`);
 
     const { recipe } = data.data;
+
     state.recipe = constructRecipeObj(recipe);
   } catch (err) {
-    alert(err);
+    /* ======= temp error handling ====== */
+    // alert(`${err} 💔`);
+    throw err;
   }
 };
 
 export const loadSearch = async function (query) {
   try {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes?search=${query}`
-    );
-    const data = await res.json();
-
-    throwError(res, data);
+    const data = await getJSON(`${API_URL}?search=${query}`);
 
     state.searchResults = [...data.data.recipes].map(recipe => {
       return constructRecipeObj(recipe);
     });
   } catch (err) {
-    console.log(err);
+    /* ======= temp error handling ====== */
+    // console.error(`${err} 💔`);
+    throw err;
   }
 };
 

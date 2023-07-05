@@ -6,6 +6,7 @@ class ResultsView extends View {
   _parentEl = this.select('.results');
   _start = 0;
   _end = 10;
+  _errorMessage = `Search couldn't load. Please try again.`;
 
   renderNewPage(currentPage) {
     this._start = currentPage * 10 - 10;
@@ -14,7 +15,7 @@ class ResultsView extends View {
 
   _generateMarkup() {
     if (this._data.length === 0) {
-      return this._generateNoResultsMarkup();
+      return this.#generateNoResultsMarkup();
     }
 
     const markup = this._data
@@ -26,7 +27,7 @@ class ResultsView extends View {
     return markup;
   }
 
-  _generateNoResultsMarkup() {
+  #generateNoResultsMarkup() {
     return `<div class="error">
           <div>
             <svg>

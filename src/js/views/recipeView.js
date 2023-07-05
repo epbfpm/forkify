@@ -4,6 +4,7 @@ import View from './view.js';
 
 class RecipeView extends View {
   _parentEl = this.select('.recipe');
+  _errorMessage = `Recipe not found. Please try again.`;
 
   addServingsHandler(handler) {
     this._parentEl.addEventListener('click', e => {
@@ -23,7 +24,7 @@ class RecipeView extends View {
     this._data = data;
     /* ======= insert ingredients ======= */
     this.select('.recipe__ingredient-list').innerHTML =
-      this._generateIngredientMarkup();
+      this.#generateIngredientMarkup();
     this.select('.recipe__info-data--people').innerHTML = this._data.servings;
   }
 
@@ -91,7 +92,7 @@ class RecipeView extends View {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-            ${this._generateIngredientMarkup()}
+            ${this.#generateIngredientMarkup()}
           </ul>
         </div>
         <div class="recipe__directions">
@@ -116,7 +117,7 @@ class RecipeView extends View {
       `;
   }
 
-  _generateIngredientMarkup() {
+  #generateIngredientMarkup() {
     return this._data.ingredients
       .map(
         i => `

@@ -9,8 +9,31 @@ export default class View {
     this._data = data;
     this.args = args;
 
-    /* ========== insert recipe ========= */
     this._parentEl.innerHTML = this._generateMarkup();
+  }
+
+  renderError(err, msg = this._errorMessage) {
+    const markup = `<div class="error">
+      <div>
+        <svg>
+          <use href="${icons}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>Error: ${String(err).split(':')[1]}. <br>  ${msg} </p>
+    </div>`;
+    this._parentEl.innerHTML = markup;
+  }
+
+  renderMessage(msg = this._message) {
+    const markup = `<div class="error">
+      <div>
+        <svg>
+          <use href="${icons}#icon-smile"></use>
+        </svg>
+      </div>
+      <p> ${msg} </p>
+    </div>`;
+    this._parentEl.innerHTML = markup;
   }
 
   renderSpinner() {

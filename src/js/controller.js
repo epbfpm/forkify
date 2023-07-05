@@ -11,8 +11,10 @@ import bookmarksView from './views/bookmarksView.js';
 // sei lá brother
 /* ============ selectors =========== */
 const select = selector => document.querySelector(selector);
-const recipeContainer = select('.recipe');
 
+/* ================================== */
+/*                INIT                */
+/* ================================== */
 const init = () => {
   searchView.addSearchHandler(controlSearch);
   recipeView.addLoadHandler(controlRecipes);
@@ -24,7 +26,6 @@ const init = () => {
 /* ================================== */
 /*        INCIDENTAL FUNCTIONS        */
 /* ================================== */
-
 const changeActiveTag = id => {
   /* ======== change active tag ======= */
   const target = select(`[href="#${id}"]`); // find target
@@ -45,11 +46,11 @@ const controlSearch = async function () {
     if (!searchView.getQuery()) return;
 
     /* ====== render search results ===== */
-    paginationView.render(1, 100);
     resultsView.render(model.state.searchResults);
+    paginationView.render(1, model.state.searchResults);
   } catch (err) {
-    // alert(err);
-    console.log(err);
+    console.log(`💔${err}`);
+    resultsView.renderError(err);
   }
 };
 
@@ -58,7 +59,6 @@ const controlSearch = async function () {
 /* ================================== */
 const controlPagination = function (currentPage) {
   paginationView.render(currentPage, model.state.searchResults.length);
-  // if (!searchView.getQuery()) return;
   resultsView.renderNewPage(currentPage);
   resultsView.render(model.state.searchResults);
 };
@@ -86,8 +86,8 @@ const controlRecipes = async function () {
     /* ========== render recipe ========= */
     recipeView.render(model.state.recipe);
   } catch (err) {
-    // alert(err);
-    console.log(err);
+    console.log(`💔${err}`);
+    recipeView.renderError(err);
   }
 };
 
