@@ -3,18 +3,20 @@ import View from './view.js';
 
 class PaginationView extends View {
   _parentEl = this.select('.pagination');
-  currentPage = 0;
+  delta = 0;
 
   addPaginationHandler(handler) {
     this._parentEl.addEventListener('click', e => {
       e.preventDefault();
       const target = e.target;
+      this.delta = 0;
 
       target.closest('button')?.classList.contains('pagination__btn--prev') &&
-        --this.currentPage;
+        --this.delta;
       target.closest('button')?.classList.contains('pagination__btn--next') &&
-        ++this.currentPage;
-      handler(this.currentPage);
+        ++this.delta;
+
+      handler(this.delta);
       return;
     });
   }
@@ -22,17 +24,17 @@ class PaginationView extends View {
   _generateMarkup() {
     return `
   <button class="btn--inline pagination__btn--prev ${
-    this._data === 1 ? 'hidden' : ''
+    this._data.page === 1 ? 'hidden' : ''
   }">
     <svg class="search__icon ">
       <use href="${icons}#icon-arrow-left"></use>
     </svg>
-    <span>Page ${this._data - 1}</span>
+    <span>Page ${this._data.page - 1}</span>
   </button>
   <button class="btn--inline pagination__btn--next ${
-    this._data * 10 >= this.args ? 'hidden' : ''
+    this._data.page * 10 >= this._data.results.length ? 'hidden' : ''
   }">
-    <span>Page ${this._data + 1}</span>
+    <span>Page ${this._data.page + 1}</span>
     <svg class="search__icon">
       <use href="${icons}#icon-arrow-right"></use>
     </svg>

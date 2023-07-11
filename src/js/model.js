@@ -1,9 +1,14 @@
-import { API_URL } from './config.js';
+import { API_URL, RES_PER_PAGE } from './config.js';
 import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
-  searchResults: [],
+  search: {
+    querry: '',
+    page: 1,
+    results: [],
+    resultsPerPage: RES_PER_PAGE,
+  },
   bookmarks: new Map(),
 };
 
@@ -23,9 +28,10 @@ export const loadRecipe = async function (id) {
 
 export const loadSearch = async function (query) {
   try {
+    state.search.querry = query;
     const data = await getJSON(`${API_URL}?search=${query}`);
 
-    state.searchResults = [...data.data.recipes].map(recipe => {
+    state.search.results = [...data.data.recipes].map(recipe => {
       return constructRecipeObj(recipe);
     });
   } catch (err) {
@@ -49,14 +55,14 @@ export const constructRecipeObj = function (recipe) {
   };
 };
 
-export const updateServings = function (modifyServings) {
+export const updateServings = function (delta) {
   /* ======= save previous value ====== */
   let prevServings = state.recipe.servings;
 
   /* ====== minimum serving is 1 ====== */
-  state.recipe.servings == 1 && modifyServings === -1
+  state.recipe.servings == 1 && delta === -1
     ? state.recipe.servings
-    : (state.recipe.servings += modifyServings);
+    : (state.recipe.servings += delta);
 
   state.recipe.ingredients.forEach(i => {
     i.quantity = i.quantity
@@ -98,4 +104,11 @@ export const retrieveBookmarksFromLS = function () {
     }
     state.bookmarks = localStorageBookmarks;
   }
+};
+
+export const getResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+  const start = (page - 1) * state.search.resultsPerPage;
+  const end = page * state.search.resultsPerPage;
+  return state.search.results.slice(start, end);
 };

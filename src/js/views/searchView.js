@@ -1,18 +1,20 @@
 import View from './view.js';
 
 class SearchView extends View {
-  _parentEl = this.select('.results');
-  _searchField = this.select('.search__field');
-  _searchBtn = this.select('.search__btn');
-  _query;
+  _parentEl = this.select('.search');
 
   getQuery() {
-    this._query = this._searchField.value;
-    return this._query;
+    const query = this._parentEl.querySelector('.search__field').value;
+    this.#clearInput;
+    return query;
+  }
+
+  #clearInput() {
+    this._parentEl.querySelector('.search__field').value = '';
   }
 
   addSearchHandler(handler) {
-    this._searchBtn.addEventListener('click', e => {
+    this._parentEl.addEventListener('submit', e => {
       e.preventDefault();
       handler();
     });

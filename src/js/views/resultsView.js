@@ -4,18 +4,25 @@ import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
   _parentEl = this.select('.results');
-  _start = 0;
-  _end = 10;
-  _errorMessage = `Search couldn't load. Please try again.`;
+  // _start = 0;
+  // _end = 10;
+  _errorMessage = `<div class="error">
+          <div>
+            <svg>
+              <use href="${icons}#icon-alert-triangle"></use>
+            </svg>
+          </div>
+          <p>No recipes found for your query. Please try again!</p>
+        </div>`;
 
-  renderNewPage(currentPage) {
-    this._start = currentPage * 10 - 10;
-    this._end = currentPage * 10;
-  }
+  // renderNewPage(currentPage) {
+  //   this._start = currentPage * 10 - 10;
+  //   this._end = currentPage * 10;
+  // }
 
   _generateMarkup() {
     if (this._data.length === 0) {
-      return this.#generateNoResultsMarkup();
+      return this._errorMessage;
     }
 
     const markup = this._data
@@ -25,17 +32,6 @@ class ResultsView extends View {
       .slice(this._start, this._end)
       .join('');
     return markup;
-  }
-
-  #generateNoResultsMarkup() {
-    return `<div class="error">
-          <div>
-            <svg>
-              <use href="${icons}#icon-alert-triangle"></use>
-            </svg>
-          </div>
-          <p>No recipes found for your query. Please try again!</p>
-        </div>`;
   }
 }
 

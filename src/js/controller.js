@@ -1,14 +1,17 @@
-import icons from 'url:../img/icons.svg';
 import * as model from './model.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
 
-// sei lá brother
+if (module.hot) {
+  module.hot.accept();
+}
+
 /* ============ selectors =========== */
 const select = selector => document.querySelector(selector);
 
@@ -30,7 +33,8 @@ const changeActiveTag = id => {
   /* ======== change active tag ======= */
   const target = select(`[href="#${id}"]`); // find target
   const activeTag = select('.preview__link--active');
-  activeTag && activeTag.classList.remove('preview__link--active');
+
+  activeTag?.classList.remove('preview__link--active');
   target?.classList.add('preview__link--active'); // add tag
 };
 
@@ -45,22 +49,23 @@ const controlSearch = async function () {
     await model.loadSearch(searchView.getQuery());
     if (!searchView.getQuery()) return;
 
-    /* ====== render search results ===== */
-    resultsView.render(model.state.searchResults);
-    paginationView.render(1, model.state.searchResults);
+    /* == render results and pagination = */
+    model.state.search.page = 1;
+    controlPagination();
   } catch (err) {
     console.log(`💔${err}`);
-    resultsView.renderError(err);
+    resultsView.renderError();
   }
 };
 
 /* ================================== */
 /*             PAGINATION             */
 /* ================================== */
-const controlPagination = function (currentPage) {
-  paginationView.render(currentPage, model.state.searchResults.length);
-  resultsView.renderNewPage(currentPage);
-  resultsView.render(model.state.searchResults);
+const controlPagination = function (delta = 0) {
+  model.state.search.page += delta;
+
+  resultsView.render(model.getResultsPage(model.state.search.page));
+  paginationView.render(model.state.search);
 };
 
 /* ================================== */
@@ -82,20 +87,22 @@ const controlRecipes = async function () {
     const { recipe } = model.state;
 
     changeActiveTag(id);
+    /* ========= set active tag ========= */
+    // resultsView.update(model.getResultsPage());
 
     /* ========== render recipe ========= */
     recipeView.render(model.state.recipe);
   } catch (err) {
     console.log(`💔${err}`);
-    recipeView.renderError(err);
+    recipeView.renderError();
   }
 };
 
 /* ====== change serving sizes ====== */
-const controlServings = function (modifyServings) {
-  model.updateServings(modifyServings);
+const controlServings = function (delta) {
+  model.updateServings(delta);
 
-  recipeView.renderIngredients(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 /* ================================== */

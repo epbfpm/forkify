@@ -2,14 +2,44 @@ import icons from 'url:../../img/icons.svg';
 
 export default class View {
   _data;
-  args;
   select = selector => document.querySelector(selector);
 
-  render(data, args) {
+  render(data) {
+    // if (!data || data.length == 0) return this.renderError();
     this._data = data;
-    this.args = args;
 
     this._parentEl.innerHTML = this._generateMarkup();
+  }
+
+  update(data) {
+    // if (!data || data.length == 0) return this.renderError();
+    this._data = data;
+    const newMarkup = this._generateMarkup();
+
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentEl.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+      // console.log(curEl, newEl.isEqualNode(curEl));
+
+      // Updates changed TEXT
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        // console.log('💥', newEl.firstChild.nodeValue.trim());
+        curEl.textContent = newEl.textContent;
+      }
+
+      // Updates changed ATTRIBUES -
+      // I'm not using data attributes to send data in my code -the teacher did
+      // if (!newEl.isEqualNode(curEl))
+      //   Array.from(newEl.attributes).forEach(attr =>
+      //     curEl.setAttribute(attr.name, attr.value)
+      //   );
+    });
   }
 
   renderError(err, msg = this._errorMessage) {
@@ -19,7 +49,7 @@ export default class View {
           <use href="${icons}#icon-alert-triangle"></use>
         </svg>
       </div>
-      <p>Error: ${String(err).split(':')[1]}. <br>  ${msg} </p>
+      <p>${msg}</p>
     </div>`;
     this._parentEl.innerHTML = markup;
   }
