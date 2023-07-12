@@ -2,18 +2,25 @@ import icons from 'url:../../img/icons.svg';
 
 export default class View {
   _data;
+  _bookMarked;
+
   select = selector => document.querySelector(selector);
 
-  render(data) {
+  render(data, render = true) {
     // if (!data || data.length == 0) return this.renderError();
     this._data = data;
 
-    this._parentEl.innerHTML = this._generateMarkup();
+    const markup = this._generateMarkup();
+
+    if (!render) return markup;
+
+    this._parentEl.innerHTML = markup;
   }
 
   update(data) {
     // if (!data || data.length == 0) return this.renderError();
     this._data = data;
+
     const newMarkup = this._generateMarkup();
 
     const newDOM = document.createRange().createContextualFragment(newMarkup);
@@ -35,10 +42,10 @@ export default class View {
 
       // Updates changed ATTRIBUES -
       // I'm not using data attributes to send data in my code -the teacher did
-      // if (!newEl.isEqualNode(curEl))
-      //   Array.from(newEl.attributes).forEach(attr =>
-      //     curEl.setAttribute(attr.name, attr.value)
-      //   );
+      if (!newEl.isEqualNode(curEl))
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
     });
   }
 

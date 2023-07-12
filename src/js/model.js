@@ -17,8 +17,10 @@ export const loadRecipe = async function (id) {
     const data = await getJSON(`${API_URL}${id}`);
 
     const { recipe } = data.data;
-
     state.recipe = constructRecipeObj(recipe);
+
+    /* ===== add boookmarked status ===== */
+    state.recipe.bookmarked = !!state.bookmarks.has(state.recipe.id);
   } catch (err) {
     /* ======= temp error handling ====== */
     // alert(`${err} 💔`);
@@ -34,6 +36,7 @@ export const loadSearch = async function (query) {
     state.search.results = [...data.data.recipes].map(recipe => {
       return constructRecipeObj(recipe);
     });
+    state.search.page = 1;
   } catch (err) {
     /* ======= temp error handling ====== */
     // console.error(`${err} 💔`);
@@ -73,18 +76,19 @@ export const updateServings = function (delta) {
 
 export const addBookmark = function () {
   state.bookmarks.set(state.recipe.id, state.recipe);
+  state.recipe.bookmarked = true;
   setBookmarksInLS();
 };
 
 export const deleteBookmark = function () {
   state.bookmarks.delete(state.recipe.id);
+  state.recipe.bookmarked = false;
   setBookmarksInLS();
 };
 
 const setBookmarksInLS = function () {
   const bookmarksArray = Array.from(state.bookmarks.entries());
   localStorage.setItem('bookmarks', JSON.stringify(bookmarksArray));
-  console.log('LS', JSON.parse(localStorage.getItem('bookmarks')));
 };
 
 const clearBookmarks = function () {
@@ -100,6 +104,8 @@ export const retrieveBookmarksFromLS = function () {
   if (getItems) {
     const data = JSON.parse(getItems);
     for (const [id, b] of data) {
+      if (![id][0]) continue;
+
       localStorageBookmarks.set(id, b);
     }
     state.bookmarks = localStorageBookmarks;
@@ -112,3 +118,9 @@ export const getResultsPage = function (page = state.search.page) {
   const end = page * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
 };
+
+const init = function () {
+  retrieveBookmarksFromLS();
+};
+
+init();

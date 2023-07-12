@@ -5,6 +5,10 @@ import icons from 'url:../../img/icons.svg';
 class BookmaksView extends View {
   _parentEl = this.select('.bookmarks__list');
 
+  addHandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
+
   _generateNoBookmarkMarkup() {
     return `<div class="message">
                     <div>
@@ -22,7 +26,7 @@ class BookmaksView extends View {
   _generateMarkup() {
     if (this._data.size === 0) return this._generateNoBookmarkMarkup();
     return [...this._data.values()]
-      .map(bookmark => previewView.render(bookmark))
+      .map(bookmark => previewView.render(bookmark, false))
       .join('');
   }
 }

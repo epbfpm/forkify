@@ -2,18 +2,21 @@ import View from './view.js';
 import icons from 'url:../../img/icons.svg';
 
 class PreviewView extends View {
-  render(recipe) {
-    // const id = window.location.hash.slice(1);
-    // ${recipe.id === id ? 'preview__link--active' : ''}
+  _parentElement = '';
+
+  _generateMarkup() {
+    const id = window.location.hash.slice(2);
 
     return `<li class="preview">
-            <a class="preview__link " href="#/${recipe.id}"  >
+            <a class="preview__link ${
+              this._data.id === id ? 'preview__link--active' : ''
+            }" href="#/${this._data.id}"  >
               <figure class="preview__fig">
-                <img src="${recipe.image}" alt="${recipe.title}" />
+                <img src="${this._data.image}" alt="${this._data.title}" />
               </figure>
               <div class="preview__data">
-                <h4 class="preview__title">${recipe.title}</h4>
-                <p class="preview__publisher">${recipe.publisher}</p>
+                <h4 class="preview__title">${this._data.title}</h4>
+                <p class="preview__publisher">${this._data.publisher}</p>
                 <div class="preview__user-generated hidden">
                   <svg>
                     <use href="${icons}#icon-user"></use>

@@ -4,8 +4,6 @@ import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
   _parentEl = this.select('.results');
-  // _start = 0;
-  // _end = 10;
   _errorMessage = `<div class="error">
           <div>
             <svg>
@@ -15,23 +13,8 @@ class ResultsView extends View {
           <p>No recipes found for your query. Please try again!</p>
         </div>`;
 
-  // renderNewPage(currentPage) {
-  //   this._start = currentPage * 10 - 10;
-  //   this._end = currentPage * 10;
-  // }
-
   _generateMarkup() {
-    if (this._data.length === 0) {
-      return this._errorMessage;
-    }
-
-    const markup = this._data
-      .map(recipe => {
-        return previewView.render(recipe);
-      })
-      .slice(this._start, this._end)
-      .join('');
-    return markup;
+    return this._data.map(result => previewView.render(result, false)).join('');
   }
 }
 

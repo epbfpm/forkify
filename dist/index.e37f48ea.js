@@ -591,6 +591,8 @@ var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
 if (module.hot) module.hot.accept();
 /* ============ selectors =========== */ const select = (selector)=>document.querySelector(selector);
 /* ================================== */ /*                INIT                */ /* ================================== */ const init = ()=>{
+    // bookmarksView.render(model.state.bookmarks);
+    (0, _bookmarksViewJsDefault.default).addHandlerRender(loadBookmarks);
     (0, _searchViewJsDefault.default).addSearchHandler(controlSearch);
     (0, _recipeViewJsDefault.default).addLoadHandler(controlRecipes);
     (0, _recipeViewJsDefault.default).addServingsHandler(controlServings);
@@ -608,10 +610,9 @@ if (module.hot) module.hot.accept();
         (0, _resultsViewJsDefault.default).renderSpinner();
         /* ======= fetch search results ====== */ await _modelJs.loadSearch((0, _searchViewJsDefault.default).getQuery());
         if (!(0, _searchViewJsDefault.default).getQuery()) return;
-        /* == render results and pagination = */ _modelJs.state.search.page = 1;
-        controlPagination();
+        /* == render results and pagination = */ controlPagination();
     } catch (err) {
-        console.log(`💔${err}`);
+        console.error(`💔${err}`);
         (0, _resultsViewJsDefault.default).renderError();
     }
 };
@@ -631,11 +632,11 @@ if (module.hot) module.hot.accept();
         /* ========= render spinner ========= */ (0, _recipeViewJsDefault.default).renderSpinner();
         /* =========== load recipe ========== */ await _modelJs.loadRecipe(id);
         const { recipe  } = _modelJs.state;
-        changeActiveTag(id);
-        /* ========= set active tag ========= */ // resultsView.update(model.getResultsPage());
+        /* ========= set active tag ========= */ (0, _resultsViewJsDefault.default).update(_modelJs.getResultsPage());
+        (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
         /* ========== render recipe ========= */ (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
-        console.log(`💔${err}`);
+        console.error(`💔${err}`);
         (0, _recipeViewJsDefault.default).renderError();
     }
 };
@@ -643,12 +644,13 @@ if (module.hot) module.hot.accept();
     _modelJs.updateServings(delta);
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
-/* ================================== */ /*              BOOKMARKS             */ /* ================================== */ (function() {
-    _modelJs.retrieveBookmarksFromLS();
+/* ================================== */ /*              BOOKMARKS             */ /* ================================== */ const loadBookmarks = function() {
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
-})();
+};
 const controlBookmarks = function() {
-    _modelJs.state.bookmarks.has(_modelJs.state.recipe.id) ? _modelJs.deleteBookmark() : _modelJs.addBookmark();
+    if (_modelJs.state.bookmarks.has(_modelJs.state.recipe.id)) _modelJs.deleteBookmark();
+    else _modelJs.addBookmark();
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
 };
 init();
@@ -1994,6 +1996,7 @@ const loadRecipe = async function(id) {
         const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
         const { recipe  } = data.data;
         state.recipe = constructRecipeObj(recipe);
+        /* ===== add boookmarked status ===== */ state.recipe.bookmarked = !!state.bookmarks.has(state.recipe.id);
     } catch (err) {
         /* ======= temp error handling ====== */ // alert(`${err} 💔`);
         throw err;
@@ -2008,6 +2011,7 @@ const loadSearch = async function(query) {
         ].map((recipe)=>{
             return constructRecipeObj(recipe);
         });
+        state.search.page = 1;
     } catch (err) {
         /* ======= temp error handling ====== */ // console.error(`${err} 💔`);
         throw err;
@@ -2035,16 +2039,17 @@ const updateServings = function(delta) {
 };
 const addBookmark = function() {
     state.bookmarks.set(state.recipe.id, state.recipe);
+    state.recipe.bookmarked = true;
     setBookmarksInLS();
 };
 const deleteBookmark = function() {
     state.bookmarks.delete(state.recipe.id);
+    state.recipe.bookmarked = false;
     setBookmarksInLS();
 };
 const setBookmarksInLS = function() {
     const bookmarksArray = Array.from(state.bookmarks.entries());
     localStorage.setItem("bookmarks", JSON.stringify(bookmarksArray));
-    console.log("LS", JSON.parse(localStorage.getItem("bookmarks")));
 };
 const clearBookmarks = function() {
     localStorage.setItem("bookmarks", JSON.stringify([]));
@@ -2054,7 +2059,10 @@ const retrieveBookmarksFromLS = function() {
     const getItems = localStorage.getItem("bookmarks");
     if (getItems) {
         const data = JSON.parse(getItems);
-        for (const [id, b] of data)localStorageBookmarks.set(id, b);
+        for (const [id, b] of data){
+            if (!id) continue;
+            localStorageBookmarks.set(id, b);
+        }
         state.bookmarks = localStorageBookmarks;
     }
 };
@@ -2064,6 +2072,10 @@ const getResultsPage = function(page = state.search.page) {
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end);
 };
+const init = function() {
+    retrieveBookmarksFromLS();
+};
+init();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -2775,7 +2787,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             </div>
             <button class="btn--round btn--bookmark">
             <svg class="">
-            <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+            <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
             </svg>
           </button>
           </div>
@@ -2981,11 +2993,14 @@ var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
+    _bookMarked;
     select = (selector)=>document.querySelector(selector);
-    render(data) {
+    render(data, render = true) {
         // if (!data || data.length == 0) return this.renderError();
         this._data = data;
-        this._parentEl.innerHTML = this._generateMarkup();
+        const markup = this._generateMarkup();
+        if (!render) return markup;
+        this._parentEl.innerHTML = markup;
     }
     update(data) {
         // if (!data || data.length == 0) return this.renderError();
@@ -3000,12 +3015,9 @@ class View {
             // Updates changed TEXT
             if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") // console.log('💥', newEl.firstChild.nodeValue.trim());
             curEl.textContent = newEl.textContent;
-        // Updates changed ATTRIBUES -
-        // I'm not using data attributes to send data in my code -the teacher did
-        // if (!newEl.isEqualNode(curEl))
-        //   Array.from(newEl.attributes).forEach(attr =>
-        //     curEl.setAttribute(attr.name, attr.value)
-        //   );
+            // Updates changed ATTRIBUES -
+            // I'm not using data attributes to send data in my code -the teacher did
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
         });
     }
     renderError(err, msg = this._errorMessage) {
@@ -3078,8 +3090,6 @@ var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class ResultsView extends (0, _viewJsDefault.default) {
     _parentEl = this.select(".results");
-    // _start = 0;
-    // _end = 10;
     _errorMessage = `<div class="error">
           <div>
             <svg>
@@ -3088,16 +3098,8 @@ class ResultsView extends (0, _viewJsDefault.default) {
           </div>
           <p>No recipes found for your query. Please try again!</p>
         </div>`;
-    // renderNewPage(currentPage) {
-    //   this._start = currentPage * 10 - 10;
-    //   this._end = currentPage * 10;
-    // }
     _generateMarkup() {
-        if (this._data.length === 0) return this._errorMessage;
-        const markup = this._data.map((recipe)=>{
-            return (0, _previewViewJsDefault.default).render(recipe);
-        }).slice(this._start, this._end).join("");
-        return markup;
+        return this._data.map((result)=>(0, _previewViewJsDefault.default).render(result, false)).join("");
     }
 }
 exports.default = new ResultsView();
@@ -3110,17 +3112,17 @@ var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class PreviewView extends (0, _viewJsDefault.default) {
-    render(recipe) {
-        // const id = window.location.hash.slice(1);
-        // ${recipe.id === id ? 'preview__link--active' : ''}
+    _parentElement = "";
+    _generateMarkup() {
+        const id = window.location.hash.slice(2);
         return `<li class="preview">
-            <a class="preview__link " href="#/${recipe.id}"  >
+            <a class="preview__link ${this._data.id === id ? "preview__link--active" : ""}" href="#/${this._data.id}"  >
               <figure class="preview__fig">
-                <img src="${recipe.image}" alt="${recipe.title}" />
+                <img src="${this._data.image}" alt="${this._data.title}" />
               </figure>
               <div class="preview__data">
-                <h4 class="preview__title">${recipe.title}</h4>
-                <p class="preview__publisher">${recipe.publisher}</p>
+                <h4 class="preview__title">${this._data.title}</h4>
+                <p class="preview__publisher">${this._data.publisher}</p>
                 <div class="preview__user-generated hidden">
                   <svg>
                     <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
@@ -3183,6 +3185,9 @@ var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class BookmaksView extends (0, _viewJsDefault.default) {
     _parentEl = this.select(".bookmarks__list");
+    addHandlerRender(handler) {
+        window.addEventListener("load", handler);
+    }
     _generateNoBookmarkMarkup() {
         return `<div class="message">
                     <div>
@@ -3200,7 +3205,7 @@ class BookmaksView extends (0, _viewJsDefault.default) {
         if (this._data.size === 0) return this._generateNoBookmarkMarkup();
         return [
             ...this._data.values()
-        ].map((bookmark)=>(0, _previewViewJsDefault.default).render(bookmark)).join("");
+        ].map((bookmark)=>(0, _previewViewJsDefault.default).render(bookmark, false)).join("");
     }
 }
 exports.default = new BookmaksView();
