@@ -601,7 +601,6 @@ if (module.hot) module.hot.accept();
     (0, _recipeViewJsDefault.default).addBookmarksHandler(controlBookmarks);
     (0, _paginationViewJsDefault.default).addPaginationHandler(controlPagination);
     (0, _addRecipeViewJsDefault.default).addNewRecipeHandler(controlAddRecipe);
-    (0, _addRecipeViewJsDefault.default).addAddIngredientHandler(controlAddIngredient);
 };
 /* ================================== */ /*        INCIDENTAL FUNCTIONS        */ /* ================================== */ const changeActiveTag = (id)=>{
     /* ======== change active tag ======= */ const target = select(`[href="#${id}"]`); // find target
@@ -667,13 +666,12 @@ const controlBookmarks = function() {
         setTimeout(function() {
             (0, _addRecipeViewJsDefault.default).toggleModal();
         }, 2000);
+        /* ====== render bookmarksView ====== */ (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+        /* ======== change id in URL ======== */ window.history.pushState(null, "", `${_modelJs.state.recipe.id}`);
     } catch (err) {
         console.error(`💔${err}`);
         (0, _addRecipeViewJsDefault.default).renderMessage(err.message);
     }
-};
-const controlAddIngredient = function() {
-    (0, _addRecipeViewJsDefault.default).addIngredient();
 };
 init();
 
@@ -2017,7 +2015,7 @@ const state = {
 const loadSearch = async function(query) {
     try {
         state.search.querry = query;
-        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}&key=${(0, _configJs.API_KEY)}`);
         state.search.results = [
             ...data.data.recipes
         ].map((recipe)=>{
@@ -2031,7 +2029,7 @@ const loadSearch = async function(query) {
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}?key=${(0, _configJs.API_KEY)}`);
         const { recipe  } = data.data;
         state.recipe = constructRecipeObj(recipe);
         /* ===== add boookmarked status ===== */ state.recipe.bookmarked = !!state.bookmarks.has(state.recipe.id);
@@ -2131,7 +2129,7 @@ const uploadRecipe = async function(data) {
             ingredients: ingredients
         };
         // state.recipe = newRecipe;
-        const sendRecipeResults = await (0, _helpersJs.sendJSON)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, newRecipe);
+        const sendRecipeResults = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, newRecipe);
         state.recipe = constructRecipeObj(sendRecipeResults.data.recipe);
         addBookmark(state.recipe);
     } catch (err) {
@@ -2189,8 +2187,7 @@ const API_KEY = "b8061b99-4694-45af-af4e-05a7eb2797c1";
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
+parcelHelpers.export(exports, "AJAX", ()=>AJAX);
 var _config = require("./config");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -2199,28 +2196,15 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const getJSON = async function(url) {
+const AJAX = async function(url, uploadData) {
     try {
-        const res = await Promise.race([
-            fetch(url),
-            timeout((0, _config.TIMEOUT_SECS))
-        ]);
-        const data = await res.json();
-        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-        return data;
-    } catch (err) {
-        throw err;
-    }
-};
-const sendJSON = async function(url, uploadData) {
-    try {
-        const fetchURL = fetch(url, {
+        const fetchURL = uploadData ? fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(uploadData)
-        });
+        }) : fetch(url);
         const res = await Promise.race([
             fetchURL,
             timeout((0, _config.TIMEOUT_SECS))
@@ -2231,9 +2215,9 @@ const sendJSON = async function(url, uploadData) {
     } catch (err) {
         throw err;
     }
-};
+}; //
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs"}],"dXNgZ":[function(require,module,exports) {
+},{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -2870,7 +2854,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             </div>
             </div>
             
-            <div class="recipe__user-generated hidden">
+            <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
             <svg>
             <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
             </svg>
@@ -3213,7 +3197,7 @@ class PreviewView extends (0, _viewJsDefault.default) {
               <div class="preview__data">
                 <h4 class="preview__title">${this._data.title}</h4>
                 <p class="preview__publisher">${this._data.publisher}</p>
-                <div class="preview__user-generated hidden">
+                <div class="preview__user-generated ${this._data.key ? "" : "hidden"}">
                   <svg>
                     <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
                   </svg>
@@ -3318,6 +3302,7 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
     constructor(){
         super();
         this._modalBehaviour();
+        this.addAddIngredientHandle();
     }
     _modalBehaviour() {
         /* ==== open modal Event listener === */ this._btnOpen.addEventListener("click", this.toggleModal);
@@ -3332,21 +3317,18 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
             handler(data);
         });
     }
-    addAddIngredientHandler(handler) {
+    addAddIngredientHandle = ()=>{
         this._addIngredient.addEventListener("click", (ev)=>{
             ev.preventDefault();
-            handler();
-        });
-    }
-    addIngredient() {
-        const markup = `<label>Ingredient ${++this._numberOfIng}</label>
+            const markup = `<label>Ingredient ${++this._numberOfIng}</label>
           <input
             type="text"
             name="ingredient-${this._numberOfIng}"
             placeholder="Format: 'Quantity,Unit,Description'"
           />`;
-        document.querySelector(".ingredients__column").insertAdjacentHTML("beforeend", markup);
-    }
+            document.querySelector(".ingredients__column").insertAdjacentHTML("beforeend", markup);
+        });
+    };
     toggleModal = ()=>{
         this._overlay.classList.toggle("hidden");
         this._modal.classList.toggle("hidden");

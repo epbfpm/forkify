@@ -28,7 +28,6 @@ const init = () => {
   recipeView.addBookmarksHandler(controlBookmarks);
   paginationView.addPaginationHandler(controlPagination);
   addRecipeView.addNewRecipeHandler(controlAddRecipe);
-  addRecipeView.addAddIngredientHandler(controlAddIngredient);
 };
 
 /* ================================== */
@@ -142,14 +141,16 @@ const controlAddRecipe = async function (data) {
     setTimeout(function () {
       addRecipeView.toggleModal();
     }, 2000);
+
+    /* ====== render bookmarksView ====== */
+    bookmarksView.render(model.state.bookmarks);
+
+    /* ======== change id in URL ======== */
+    window.history.pushState(null, '', `${model.state.recipe.id}`);
   } catch (err) {
     console.error(`💔${err}`);
     addRecipeView.renderMessage(err.message);
   }
-};
-
-const controlAddIngredient = function () {
-  addRecipeView.addIngredient();
 };
 
 init();

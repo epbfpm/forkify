@@ -17,6 +17,7 @@ class AddRecipeView extends View {
   constructor() {
     super();
     this._modalBehaviour();
+    this.addAddIngredientHandle();
   }
 
   _modalBehaviour() {
@@ -42,25 +43,21 @@ class AddRecipeView extends View {
     });
   }
 
-  addAddIngredientHandler(handler) {
+  addAddIngredientHandle = () => {
     this._addIngredient.addEventListener('click', ev => {
       ev.preventDefault();
-      handler();
-    });
-  }
-
-  addIngredient() {
-    const markup = `<label>Ingredient ${++this._numberOfIng}</label>
+      const markup = `<label>Ingredient ${++this._numberOfIng}</label>
           <input
             type="text"
             name="ingredient-${this._numberOfIng}"
             placeholder="Format: 'Quantity,Unit,Description'"
           />`;
 
-    document
-      .querySelector('.ingredients__column')
-      .insertAdjacentHTML('beforeend', markup);
-  }
+      document
+        .querySelector('.ingredients__column')
+        .insertAdjacentHTML('beforeend', markup);
+    });
+  };
 
   toggleModal = () => {
     this._overlay.classList.toggle('hidden');
