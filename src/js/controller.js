@@ -7,6 +7,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 if (module.hot) {
   module.hot.accept();
@@ -26,6 +27,8 @@ const init = () => {
   recipeView.addServingsHandler(controlServings);
   recipeView.addBookmarksHandler(controlBookmarks);
   paginationView.addPaginationHandler(controlPagination);
+  addRecipeView.addNewRecipeHandler(controlAddRecipe);
+  addRecipeView.addAddIngredientHandler(controlAddIngredient);
 };
 
 /* ================================== */
@@ -94,7 +97,7 @@ const controlRecipes = async function () {
     /* ========== render recipe ========= */
     recipeView.render(model.state.recipe);
   } catch (err) {
-    console.error(`💔${err}`);
+    console.error(err);
     recipeView.renderError();
   }
 };
@@ -122,6 +125,25 @@ const controlBookmarks = function () {
 
   recipeView.update(model.state.recipe);
   bookmarksView.render(model.state.bookmarks);
+};
+
+/* ================================== */
+/*           ADD NEW RECIPE           */
+/* ================================== */
+const controlAddRecipe = async function (data) {
+  try {
+    await model.uploadRecipe(data);
+
+    recipeView.render(model.state.recipe);
+    console.log(model.state.recipe);
+  } catch (err) {
+    console.error(`💔${err}`);
+    addRecipeView.renderMessage(err.message);
+  }
+};
+
+const controlAddIngredient = function () {
+  addRecipeView.addIngredient();
 };
 
 init();

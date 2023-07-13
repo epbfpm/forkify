@@ -1,5 +1,5 @@
-import { API_URL, RES_PER_PAGE } from './config.js';
-import { getJSON } from './helpers.js';
+import { API_URL, RES_PER_PAGE, API_KEY } from './config.js';
+import { getJSON, sendJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -12,22 +12,9 @@ export const state = {
   bookmarks: new Map(),
 };
 
-export const loadRecipe = async function (id) {
-  try {
-    const data = await getJSON(`${API_URL}${id}`);
-
-    const { recipe } = data.data;
-    state.recipe = constructRecipeObj(recipe);
-
-    /* ===== add boookmarked status ===== */
-    state.recipe.bookmarked = !!state.bookmarks.has(state.recipe.id);
-  } catch (err) {
-    /* ======= temp error handling ====== */
-    // alert(`${err} 💔`);
-    throw err;
-  }
-};
-
+/* ================================== */
+/*               SEARCH               */
+/* ================================== */
 export const loadSearch = async function (query) {
   try {
     state.search.querry = query;
@@ -44,6 +31,25 @@ export const loadSearch = async function (query) {
   }
 };
 
+/* ================================== */
+/*               RECIPE               */
+/* ================================== */
+export const loadRecipe = async function (id) {
+  try {
+    const data = await getJSON(`${API_URL}${id}`);
+
+    const { recipe } = data.data;
+    state.recipe = constructRecipeObj(recipe);
+
+    /* ===== add boookmarked status ===== */
+    state.recipe.bookmarked = !!state.bookmarks.has(state.recipe.id);
+  } catch (err) {
+    /* ======= temp error handling ====== */
+    // alert(`${err} 💔`);
+    throw err;
+  }
+};
+
 export const constructRecipeObj = function (recipe) {
   return {
     id: recipe.id,
@@ -55,9 +61,11 @@ export const constructRecipeObj = function (recipe) {
     ogServings: recipe.servings,
     cookingTime: recipe.cooking_time,
     ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }),
   };
 };
 
+/* ============= SERVINGS ============ */
 export const updateServings = function (delta) {
   /* ======= save previous value ====== */
   let prevServings = state.recipe.servings;
@@ -74,6 +82,9 @@ export const updateServings = function (delta) {
   });
 };
 
+/* ================================== */
+/*              BOOKMARKS             */
+/* ================================== */
 export const addBookmark = function () {
   state.bookmarks.set(state.recipe.id, state.recipe);
   state.recipe.bookmarked = true;
@@ -112,11 +123,78 @@ export const retrieveBookmarksFromLS = function () {
   }
 };
 
+/* ================================== */
+/*             PAGINATION             */
+/* ================================== */
 export const getResultsPage = function (page = state.search.page) {
   state.search.page = page;
   const start = (page - 1) * state.search.resultsPerPage;
   const end = page * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
+};
+
+/* ================================== */
+/*             ADD RECIPE             */
+/* ================================== */
+export const uploadRecipe = async function (data) {
+  try {
+    /* == professor code -newer methods = */
+    // const dataArr = [...new FormData(this._parentEl)];
+    // const dataObj = Object.fromEntries(dataArr);
+
+    // TODO - redo using the above methods
+
+    /* ======= get data from form ======= */
+    const uploadData = {};
+
+    data.forEach(i => {
+      uploadData[i.name] = i.value;
+    });
+
+    /* ==== get ingredients in format === */
+    const ingredients = [];
+    const entries = Object.entries(uploadData);
+
+    for (let index = 0; index < entries.length; index++) {
+      let [key, value] = entries[index];
+
+      if (!value.split(',')[2]) continue;
+      value = value.split(',');
+      if (value.length !== 3) throw new Error('Wrong ingredient format!');
+
+      if (key.startsWith(`ing`)) {
+        ingredients.push({
+          quantity: +value[0] || '',
+          unit: value[1] || '',
+          description: value[2],
+        });
+      }
+    }
+
+    /* ===== construct recipe object ==== */
+    const newRecipe = {
+      id: '5ed6604591c37cdc054bcc13',
+      title: uploadData['title'],
+      publisher: uploadData['publisher'],
+      source_url: uploadData['sourceUrl'],
+      image_url: uploadData['image'],
+      servings: +uploadData['servings'],
+      cooking_time: +uploadData['cookingTime'],
+      ingredients: ingredients,
+    };
+
+    // state.recipe = newRecipe;
+    const sendRecipeResults = await sendJSON(
+      `${API_URL}?key=${API_KEY}`,
+      newRecipe
+    );
+
+    state.recipe = constructRecipeObj(sendRecipeResults.data.recipe);
+    addBookmark(state.recipe);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
 const init = function () {

@@ -161,6 +161,43 @@ body {
   height: 2.5rem;
 }
 
+.btn--ing {
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  position: absolute;
+  top: 5rem;
+  right: 12rem;
+}
+
+.btn--ing svg {
+  fill: #f38e82;
+  width: 100%;
+  height: 100%;
+  transition: all .3s;
+}
+
+.btn--ing:focus {
+  outline: none;
+}
+
+.btn--ing:hover svg {
+  fill: #f48982;
+  transform: translateY(-1px);
+}
+
+.btn--ing:active svg {
+  fill: #f48982;
+  transform: translateY(0);
+}
+
+.btn--ing:not(:last-child) {
+  margin-right: .3rem;
+}
+
 .btn--tiny {
   cursor: pointer;
   background: none;
@@ -720,6 +757,10 @@ body {
   right: 1.6rem;
 }
 
+.ingredient__line {
+  display: flex;
+}
+
 .overlay {
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
@@ -784,7 +825,7 @@ body {
 .upload__heading {
   text-transform: uppercase;
   grid-column: 1 / -1;
-  margin-bottom: 1rem;
+  margin-bottom: auto;
   font-size: 2.25rem;
   font-weight: 700;
 }

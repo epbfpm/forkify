@@ -25,6 +25,9 @@
   }
 }
 
+.ingredient__line {
+  display: flex;
+}
 .overlay {
   position: fixed;
   top: 0;
@@ -88,7 +91,7 @@
     font-size: 2.25rem;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    margin-bottom: auto;
     grid-column: 1/-1;
   }
 
@@ -97,3 +100,4 @@
     justify-self: center;
   }
 }
+
