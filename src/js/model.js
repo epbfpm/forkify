@@ -178,8 +178,8 @@ export const uploadRecipe = async function (data) {
       publisher: uploadData['publisher'],
       source_url: uploadData['sourceUrl'],
       image_url: uploadData['image'],
-      servings: +uploadData['servings'],
-      cooking_time: +uploadData['cookingTime'],
+      servings: uploadData['servings'],
+      cooking_time: uploadData['cookingTime'],
       ingredients: ingredients,
     };
 

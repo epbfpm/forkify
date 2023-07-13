@@ -638,7 +638,8 @@ if (module.hot) module.hot.accept();
         const { recipe  } = _modelJs.state;
         /* ========= set active tag ========= */ (0, _resultsViewJsDefault.default).update(_modelJs.getResultsPage());
         (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
-        /* ========== render recipe ========= */ (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        /* ========== render recipe ========= */ console.log(_modelJs.state.recipe);
+        (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
         console.error(err);
         (0, _recipeViewJsDefault.default).renderError();
@@ -659,9 +660,13 @@ const controlBookmarks = function() {
 };
 /* ================================== */ /*           ADD NEW RECIPE           */ /* ================================== */ const controlAddRecipe = async function(data) {
     try {
+        (0, _addRecipeViewJsDefault.default).renderSpinner();
         await _modelJs.uploadRecipe(data);
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
-        console.log(_modelJs.state.recipe);
+        (0, _addRecipeViewJsDefault.default).renderMessage();
+        setTimeout(function() {
+            (0, _addRecipeViewJsDefault.default).toggleModal();
+        }, 2000);
     } catch (err) {
         console.error(`💔${err}`);
         (0, _addRecipeViewJsDefault.default).renderMessage(err.message);
@@ -2121,8 +2126,8 @@ const uploadRecipe = async function(data) {
             publisher: uploadData["publisher"],
             source_url: uploadData["sourceUrl"],
             image_url: uploadData["image"],
-            servings: +uploadData["servings"],
-            cooking_time: +uploadData["cookingTime"],
+            servings: uploadData["servings"],
+            cooking_time: uploadData["cookingTime"],
             ingredients: ingredients
         };
         // state.recipe = newRecipe;
@@ -3117,7 +3122,15 @@ class View {
         this._parentEl.innerHTML = markup;
     }
     renderMessage(msg = this._message) {
-        alert(msg);
+        const markup = `<div class="error">
+      <div>
+        <svg>
+          <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${msg}</p>
+    </div>`;
+        this._parentEl.innerHTML = markup;
     }
     renderSpinner() {
         const markup = `
@@ -3294,6 +3307,7 @@ var _viewJs = require("./view.js");
 var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 class AddRecipeView extends (0, _viewJsDefault.default) {
     _parentEl = this.select(".upload");
+    _message = "Recipe was successfully uploaded!";
     _overlay = this.select(".overlay");
     _modal = this.select(".add-recipe-window");
     _btnOpen = this.select(".nav__btn--add-recipe");
@@ -3315,7 +3329,6 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
         /* === submit form event listener === */ this._parentEl.addEventListener("submit", (e)=>{
             e.preventDefault();
             const data = document.querySelectorAll(".upload__column input");
-            this.toggleModal();
             handler(data);
         });
     }

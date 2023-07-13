@@ -2,6 +2,7 @@ import View from './view.js';
 
 class AddRecipeView extends View {
   _parentEl = this.select('.upload');
+  _message = 'Recipe was successfully uploaded!';
 
   _overlay = this.select('.overlay');
   _modal = this.select('.add-recipe-window');
@@ -36,7 +37,6 @@ class AddRecipeView extends View {
     this._parentEl.addEventListener('submit', e => {
       e.preventDefault();
       const data = document.querySelectorAll('.upload__column input');
-      this.toggleModal();
 
       handler(data);
     });

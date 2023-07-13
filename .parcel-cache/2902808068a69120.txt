@@ -1,5 +1,5 @@
 9637
-79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\model.js133336902042190567 0
+79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\model.js133336914789292569 0
 111A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\es\instance\starts-with.js133318762819683453 0
 104A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\css-tree\lib\utils\index.js133312670099473212 0
 123A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\caniuse-lite\data\features\css-unicode-bidi.js133312670102194966 0
@@ -40,7 +40,7 @@
 113A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlparser2\lib\FeedHandler.d.ts.map133312669993446152 0
 100A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlnano\lib\helpers.js133312670004103821 0
 101A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\node-addon-api\nothing.c133312669955740000 0
-68A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist133336903165213154 1
+68A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist133336920052099557 1
 109A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\array\find-index.js133318762790738987 0
 114A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\actual\typed-array\entries.js133318762780066457 0
 108A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\caniuse-lite\data\regions\SR.js133312670146996781 0
@@ -218,7 +218,7 @@
 97A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\css-tree\lib\data.js133312670098153215 0
 127A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\caniuse-lite\data\features\spellcheck-attribute.js133312670146956770 0
 120A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\internals\array-buffer-view-core.js133318762775245388 0
-84A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\controller.js133336903163609173 0
+84A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\controller.js133336920035596719 0
 101A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@parcel\transformer-sass133336666929198321 1
 96A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\lmdb\src\writer.cpp133312670087101489 0
 118A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\modules\esnext.symbol.metadata.js133318762788788985 0
@@ -232,7 +232,7 @@
 120A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@parcel\core\src\TargetDescriptor.schema.js133312670097213221 0
 108A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\svgo\plugins\convertPathData.js133312670024260198 0
 85A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\csso\cjs133336666883653145 1
-93A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\views\addRecipeView.js133336860175480059 0
+93A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\views\addRecipeView.js133336918904927871 0
 117A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\utility-types\dist\aliases-and-guards.js133312669964937655 0
 116A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\features\async-iterator\some.js133318762818673458 0
 138A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\csso\node_modules\css-tree\cjs\tokenizer\OffsetToLocation.cjs133312670079587321 0
@@ -298,7 +298,7 @@
 108A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\caniuse-lite\data\regions\CI.js133312670088021498 0
 128A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mdb_stat.1133312670034110315 0
 114A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\features\error\constructor.js133318762777906686 0
-84A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\views\view.js133336891149532488 0
+84A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\js\views\view.js133336918456957396 0
 118A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\svgo\plugins\addAttributesToSVGElement.js133312669985786016 0
 107A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\set\difference.js133318762779463619 0
 83A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\src\img\favicon.png132886947190000000 0
@@ -1004,7 +1004,7 @@
 105A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\weak-lru-cache\tests\test.js133312669982955904 0
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\js-yaml\lib\schema\default.js133312669984786015 0
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\weak-lru-cache\dist\index.cjs133312669957658520 0
-79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.html133336902253165638 0
+79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.html133336920051449527 0
 117A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@swc\helpers\lib\_non_iterable_spread.js133312670099143209 0
 107A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\nth-check\lib\esm\parse.js.map133312670019845100 0
 103A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\utility-types\CHANGELOG.md133312670005403815 0
@@ -2733,7 +2733,7 @@
 138A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@parcel\optimizer-htmlnano\node_modules\css-tree\package.json133312670091451311 0
 128A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mdb_copy.c133312670048985970 0
 107A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\regexp\replace.js133318762815973469 0
-86A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\logo.726d37a8.png133336902252995647 0
+86A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\logo.726d37a8.png133336920051699549 0
 98A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\glob-parent\README.md133312670310791971 0
 128A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mdb_drop.1133312670024460180 0
 111A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\stable\object\to-string.js133318762825593436 0
@@ -5872,7 +5872,7 @@
 109A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\internals\string-trim.js133318762820523451 0
 130A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\internals\structured-clone-proper-transfer.js133318762820593461 0
 126A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\internals\symbol-constructor-detection.js133318762821223435 0
-87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\icons.21bad73c.svg133336902253165638 0
+87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\icons.21bad73c.svg133336920051369556 0
 123A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@swc\helpers\lib\_skip_first_generator_next.js133312670100153208 0
 115A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\internals\to-indexed-object.js133318762822333446 0
 110A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\typed-array\index.js133318762800149017 0
@@ -6005,7 +6005,7 @@
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\function\name.js133318762812723456 0
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\string\strike.js133318762820063453 0
 111A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\actual\typed-array\sort.js133318762818903445 0
-87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\icons.dfd7a6db.svg133336902253165638 0
+87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\icons.dfd7a6db.svg133336920051369556 0
 103A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\string\sup.js133318762821093443 0
 129A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\csso\lib\replace133336666926673571 1
 110A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\string\trim-start.js133318762827603472 0
@@ -9625,14 +9625,14 @@
 86A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\.bin\sass133312670311661962 0
 90A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\.bin\svgo.cmd133312670149346777 0
 108A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\.bin\update-browserslist-db.cmd133312670149346777 0
-89A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\favicon.8b2f57bf.png133336902252035643 0
+89A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\favicon.8b2f57bf.png133336920051049550 0
 97A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\favicon.8b2f57bf.png.10792.d133328956802671642 0
 97A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\favicon.8b2f57bf.png.17264.p133336821266363342 0
 90A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.62406edb.js.map133328956802691664 0
-86A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.e37f48ea.js133336903165173159 0
-90A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.e37f48ea.js.map133336903165203149 0
+86A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.e37f48ea.js133336920052069540 0
+90A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.e37f48ea.js.map133336920052089535 0
 99A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.e37f48ea.js.map.10364.8j133328956802721960 0
-87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.f7626f62.css133336902252155660 0
-91A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.f7626f62.css.map133336902252195648 0
+87A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.f7626f62.css133336920051459546 0
+91A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.f7626f62.css.map133336920051489554 0
 88A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\starter.3464ddca.js133328956802768113 0
 92A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\starter.3464ddca.js.map133328956802778117 0

@@ -62,7 +62,15 @@ export default class View {
   }
 
   renderMessage(msg = this._message) {
-    alert(msg);
+    const markup = `<div class="error">
+      <div>
+        <svg>
+          <use href="${icons}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${msg}</p>
+    </div>`;
+    this._parentEl.innerHTML = markup;
   }
 
   renderSpinner() {
