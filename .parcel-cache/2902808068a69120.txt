@@ -40,7 +40,7 @@
 113A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlparser2\lib\FeedHandler.d.ts.map133312669993446152 0
 100A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlnano\lib\helpers.js133312670004103821 0
 101A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\node-addon-api\nothing.c133312669955740000 0
-68A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist133337548644260212 1
+68A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist133337550363050048 1
 109A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\full\array\find-index.js133318762790738987 0
 114A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\actual\typed-array\entries.js133318762780066457 0
 108A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\caniuse-lite\data\regions\SR.js133312670146996781 0
@@ -75,7 +75,7 @@
 111A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\core-js\features\array\iterator.js133318762809133459 0
 119A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\css-tree\lib\definition-syntax\generate.js133312670098503213 0
 113A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@swc\helpers\esm\_async_generator.js133312670087951503 0
-74A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\index.html133337548624975101 0
+74A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\index.html133337550267878376 0
 116A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlnano\lib\modules\removeUnusedCss.js133312670036575613 0
 102A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@parcel\utils\src\glob.js133312670036545613 0
 103A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\htmlnano\docs\netlify.toml133312670077096603 0
@@ -1004,7 +1004,7 @@
 105A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\weak-lru-cache\tests\test.js133312669982955904 0
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\js-yaml\lib\schema\default.js133312669984786015 0
 106A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\weak-lru-cache\dist\index.cjs133312669957658520 0
-79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.html133337548644060270 0
+79A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\dist\index.html133337550363040347 0
 117A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\@swc\helpers\lib\_non_iterable_spread.js133312670099143209 0
 107A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\nth-check\lib\esm\parse.js.map133312670019845100 0
 103A:\Study\Programming\Complete JS\0 - Updated\18-forkify\starter\node_modules\utility-types\CHANGELOG.md133312670005403815 0
