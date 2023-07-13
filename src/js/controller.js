@@ -94,7 +94,6 @@ const controlRecipes = async function () {
     bookmarksView.update(model.state.bookmarks);
 
     /* ========== render recipe ========= */
-    console.log(model.state.recipe);
     recipeView.render(model.state.recipe);
   } catch (err) {
     console.error(err);

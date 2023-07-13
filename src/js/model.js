@@ -76,6 +76,7 @@ export const updateServings = function (delta) {
     : (state.recipe.servings += delta);
 
   state.recipe.ingredients.forEach(i => {
+    console.log(i.quantity, state.recipe.servings, prevServings);
     i.quantity = i.quantity
       ? (i.quantity * state.recipe.servings) / prevServings
       : 0;
@@ -164,7 +165,7 @@ export const uploadRecipe = async function (data) {
 
       if (key.startsWith(`ing`)) {
         ingredients.push({
-          quantity: +value[0] || '',
+          quantity: value[0] || '',
           unit: value[1] || '',
           description: value[2],
         });

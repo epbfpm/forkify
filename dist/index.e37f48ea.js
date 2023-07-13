@@ -637,8 +637,7 @@ if (module.hot) module.hot.accept();
         const { recipe  } = _modelJs.state;
         /* ========= set active tag ========= */ (0, _resultsViewJsDefault.default).update(_modelJs.getResultsPage());
         (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
-        /* ========== render recipe ========= */ console.log(_modelJs.state.recipe);
-        (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        /* ========== render recipe ========= */ (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
         console.error(err);
         (0, _recipeViewJsDefault.default).renderError();
@@ -2058,6 +2057,7 @@ const updateServings = function(delta) {
     /* ======= save previous value ====== */ let prevServings = state.recipe.servings;
     /* ====== minimum serving is 1 ====== */ state.recipe.servings == 1 && delta === -1 ? state.recipe.servings : state.recipe.servings += delta;
     state.recipe.ingredients.forEach((i)=>{
+        console.log(i.quantity, state.recipe.servings, prevServings);
         i.quantity = i.quantity ? i.quantity * state.recipe.servings / prevServings : 0;
     });
 };
@@ -2113,7 +2113,7 @@ const uploadRecipe = async function(data) {
             value = value.split(",");
             if (value.length !== 3) throw new Error("Wrong ingredient format!");
             if (key.startsWith(`ing`)) ingredients.push({
-                quantity: +value[0] || "",
+                quantity: value[0] || "",
                 unit: value[1] || "",
                 description: value[2]
             });
@@ -2894,7 +2894,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             <svg class="recipe__icon">
             <use href="${0, _iconsSvgDefault.default}#icon-check"></use>
             </svg>
-            <div class="recipe__quantity">${i.quantity ? (0, _fractyDefault.default)(i.quantity).toString() : ""}
+            <div class="recipe__quantity">${(0, _fractyDefault.default)(i.quantity).toString()}
             </div>
             <div class="recipe__description">
             <span class="recipe__unit">${i.unit}</span>
